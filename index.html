@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LUNO</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    height: 100vh;
+    background: radial-gradient(circle at top, #120305, #050507 60%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: system-ui;
+    color: white;
+    overflow: hidden;
+}
+
+#dust {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+}
+
+.card {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 380px;
+    padding: 64px 36px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 20px 40px rgba(0,0,0,0.45);
+}
+
+h1 {
+    font-family: 'Bebas Neue';
+    font-size: 60px;
+    letter-spacing: 8px;
+    margin: 0;
+}
+
+.caption {
+    margin-top: 8px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: #777;
+}
+
+form {
+    margin-top: 52px;
+    text-align: left;
+}
+
+input, select {
+    width: 100%;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    background: rgba(13, 13, 16, 0.8);
+    border: 1px solid #1e1e1e;
+    border-radius: 14px;
+    color: white;
+    font-size: 14px;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #b11226;
+}
+
+button {
+    width: 100%;
+    padding: 16px;
+    margin-top: 10px;
+    background: #b11226;
+    border: none;
+    border-radius: 18px;
+    color: white;
+    letter-spacing: 3px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div id="dust"></div>
+
+<div class="card">
+    <h1>LUNO</h1>
+    <div class="caption">LANDS YOU AT YOUR PLACE SAFELY</div>
+
+    <form action="/preferences" method="get">
+        <input type="text" name="name" placeholder="Your name" required autocomplete="off">
+        <input type="tel" name="phone" placeholder="Phone number" required autocomplete="off">
+
+        <select name="dest" required>
+            <option value="" disabled selected>Select route</option>
+            <option value="SRM to Mangalagiri">SRM → Mangalagiri</option>
+            <option value="Mangalagiri to SRM">Mangalagiri → SRM</option>
+        </select>
+
+        <button type="submit">CONTINUE</button>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script>
+    particlesJS("dust", {
+      particles: {
+        number: { value: 70, density: { enable: true, value_area: 1200 } },
+        color: { value: "#ffffff" },
+        line_linked: { enable: false },
+        opacity: { value: 0.50, random: true },
+        size: { value: 2.1, random: true },
+        move: { enable: true, speed: 0.4, random: true, out_mode: "out" }
+      },
+      retina_detect: true
+    });
+</script>
+
+</body>
+</html>

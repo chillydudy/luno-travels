@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Luno Lobby</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: radial-gradient(circle at top, #120305, #050507 60%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: system-ui;
+            overflow: hidden;
+        }
+
+        #dust { position: fixed; inset: 0; z-index: 0; }
+
+        .glass-card {
+            position: relative;
+            z-index: 2;
+            width: 400px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.45);
+            text-align: center;
+        }
+
+        h1 { font-family: 'Bebas Neue'; font-size: 50px; letter-spacing: 6px; margin: 0; }
+        
+        .fare-box {
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        #fare-value { font-size: 64px; font-weight: bold; color: #fff; display: block; }
+        #user-count { font-size: 12px; color: #777; letter-spacing: 2px; }
+
+        /* The Fixed "Cyber" Confirm Button */
+        .confirm-btn {
+            width: 100%;
+            padding: 20px;
+            margin-top: 20px;
+            background: #b11226;
+            border: none;
+            border-radius: 18px;
+            color: white;
+            font-family: system-ui;
+            font-weight: 800;
+            font-size: 14px;
+            letter-spacing: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(177, 18, 38, 0.2);
+        }
+
+        .confirm-btn:hover {
+            background: #d1162d;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(177, 18, 38, 0.4);
+        }
+
+        .confirm-btn:active { transform: translateY(0); }
+
+    </style>
+</head>
+<body>
+    <div id="dust"></div>
+
+    <div class="glass-card">
+        <p style="font-size: 10px; color: #b11226; letter-spacing: 3px; margin-bottom: 5px;">LIVE LOBBY</p>
+        <h1>{{ dest }}</h1>
+        
+        <div class="fare-box">
+            <span id="fare-value">₹220</span>
+            <span id="user-count">WAITING FOR OTHERS...</span>
+        </div>
+
+        <button class="confirm-btn" onclick="confirmRide()">
+            CONFIRM RIDE
+        </button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        // Update function to keep the data real-time
+        async function updateLobby() {
+            try {
+                const response = await fetch(`/api/count?dest={{ dest }}&phone={{ phone }}`);
+                const data = await response.json();
+                
+                if (data.expired) {
+                    window.location.href = "/";
+                    return;
+                }
+
+                document.getElementById('fare-value').innerText = `₹${data.fare}`;
+                document.getElementById('user-count').innerText = `${data.count} STUDENT(S) JOINED`;
+            } catch (e) { console.log("Update failed"); }
+        }
+
+        // Send to confirmed and wipe the user from the dict
+        function confirmRide() {
+            window.location.href = `/confirmed?phone={{ phone }}&dest={{ dest }}`;
+        }
+
+        setInterval(updateLobby, 2000); // Check every 2 seconds
+        
+        // Original Dust Config
+        particlesJS("dust", {
+            particles: {
+                number: { value: 70, density: { enable: true, value_area: 1200 } },
+                color: { value: "#ffffff" },
+                line_linked: { enable: false },
+                opacity: { value: 0.5, random: true },
+                size: { value: 2.1, random: true },
+                move: { enable: true, speed: 0.4, random: true, out_mode: "out" }
+            },
+            retina_detect: true
+        });
+    </script>
+</body>
+</html>
